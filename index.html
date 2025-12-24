@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUK Unboxing Waldhausen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- BUK Header - Ganz oben -->
+        <header class="header">
+            <img src="images/BUK_Header.png" alt="BUK Unboxing" class="header-logo">
+        </header>
+
+        <!-- Roll Bereich -->
+        <div class="roll-section">
+            <div class="roll-container">
+                <div class="roll-indicator"></div>
+                <div class="roll-window">
+                    <div class="items-track" id="itemsTrack"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unbox Button - Direkt über der Box -->
+        <div class="button-section">
+            <button class="unbox-button" id="rollButton">
+                <span class="button-text">UNBOX!</span>
+            </button>
+        </div>
+
+        <!-- Rewards Links und Rechts -->
+        <div class="rewards-sidebar rewards-left" id="rewardsLeft"></div>
+        <div class="rewards-sidebar rewards-right" id="rewardsRight"></div>
+
+        <!-- Item Preview über der Box -->
+        <div class="item-preview" id="itemPreview">
+            <img src="" alt="" id="previewImage">
+            <h3 id="previewName"></h3>
+            <p id="previewRarity"></p>
+        </div>
+
+        <!-- Gewonnenes Item Anzeige -->
+        <div class="won-overlay" id="wonItemDisplay">
+            <div class="won-content" id="wonContent">
+                <div class="won-glow"></div>
+                <img src="" alt="" id="wonItemImage" class="won-image">
+                <h2 id="wonItemName" class="won-name"></h2>
+                <p id="wonItemRarity" class="won-rarity"></p>
+                <button class="close-button">Weiter</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="items.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
