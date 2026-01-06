@@ -54,7 +54,7 @@ class UnboxingApp {
         const div = document.createElement('div');
         div.className = `roll-item rarity-${item.rarity}`;
         div.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23555%22 font-size=%2210%22>?</text></svg>'">
+            <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2250%22 font-weight=%22bold%22>?</text></svg>'">
             <span>${item.name}</span>
         `;
         return div;
@@ -93,7 +93,7 @@ class UnboxingApp {
             const div = document.createElement('div');
             div.className = `sidebar-item rarity-${item.rarity}`;
             div.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23555%22 font-size=%2210%22>?</text></svg>'">
+                <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2250%22 font-weight=%22bold%22>?</text></svg>'">
                 <h3>${item.name}</h3>
                 <p class="rarity-label">${RARITY_LABELS[item.rarity]}</p>
             `;
@@ -177,7 +177,7 @@ class UnboxingApp {
 
         const trackItems = this.itemsTrack.children;
         trackItems[winningPosition].innerHTML = `
-            <img src="${winningItem.image}" alt="${winningItem.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23555%22 font-size=%2210%22>?</text></svg>'">
+            <img src="${winningItem.image}" alt="${winningItem.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2250%22 font-weight=%22bold%22>?</text></svg>'">
             <span>${winningItem.name}</span>
         `;
         trackItems[winningPosition].className = `roll-item rarity-${winningItem.rarity}`;

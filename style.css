@@ -321,10 +321,12 @@ body {
 
 .rewards-left {
     left: 30px;
+    bottom: 80px;
 }
 
 .rewards-right {
-    right: 30px;
+    left: 30px;
+    bottom: 270px;
 }
 
 .sidebar-item {
