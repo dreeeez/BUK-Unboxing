@@ -13,6 +13,48 @@
             <img src="images/BUK_Header.png" alt="BUK Unboxing" class="header-logo">
         </header>
 
+        <!-- Modus Anzeige (oben rechts) -->
+        <div class="mode-display" id="modeDisplay">
+            <span class="mode-label">Modus:</span>
+            <span class="mode-value" id="currentModeDisplay">Nicht gewählt</span>
+            <button class="mode-switch-btn" id="modeSwitchBtn">Wechseln</button>
+        </div>
+
+        <!-- Modus Auswahl Overlay (U18 / U26) -->
+        <div class="mode-overlay" id="modeOverlay">
+            <div class="mode-content">
+                <h2 class="mode-title">Wähle deinen Modus</h2>
+                <div class="mode-buttons">
+                    <button class="mode-btn mode-u18" data-mode="U18">
+                        <span class="mode-btn-title">U18</span>
+                        <span class="mode-btn-desc">Jugendliche</span>
+                    </button>
+                    <button class="mode-btn mode-u26" data-mode="U26">
+                        <span class="mode-btn-title">U26 Samvirk</span>
+                        <span class="mode-btn-desc">Junge Erwachsene</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Varianten Auswahl Overlay (All-in / Save) -->
+        <div class="variant-overlay" id="variantOverlay">
+            <div class="variant-content">
+                <h2 class="variant-title">Wähle deine Variante</h2>
+                <p class="variant-player">Spieler: <span id="currentPlayerName">-</span></p>
+                <div class="variant-buttons">
+                    <button class="variant-btn variant-save" data-variant="SAVE">
+                        <span class="variant-btn-title">🛡️ SAVE</span>
+                        <span class="variant-btn-desc">Sichere Gewinne, keine Strafen</span>
+                    </button>
+                    <button class="variant-btn variant-allin" data-variant="ALL_IN">
+                        <span class="variant-btn-title">🔥 ALL IN</span>
+                        <span class="variant-btn-desc">Bessere Items, aber auch Strafen möglich!</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Roll Bereich -->
         <div class="roll-section">
             <div class="roll-container">
@@ -23,10 +65,17 @@
             </div>
         </div>
 
+        <!-- Aktueller Spieler Anzeige -->
+        <div class="player-display" id="playerDisplay">
+            <span class="player-label">Spieler:</span>
+            <span class="player-name" id="playerName">-</span>
+            <span class="player-variant" id="playerVariant"></span>
+        </div>
+
         <!-- Unbox Button - Direkt über der Box -->
         <div class="button-section">
             <button class="unbox-button" id="rollButton">
-                <span class="button-text">UNBOX!</span>
+                <span class="button-text">SPIN PERSON</span>
             </button>
         </div>
 
@@ -41,6 +90,17 @@
             <p id="previewRarity"></p>
         </div>
 
+        <!-- Person gewonnen Anzeige -->
+        <div class="won-overlay" id="personWonDisplay">
+            <div class="won-content person-won" id="personWonContent">
+                <div class="won-glow person-glow"></div>
+                <div class="person-icon">👤</div>
+                <h2 id="wonPersonName" class="won-name">Name</h2>
+                <p class="won-rarity">Wurde ausgewählt!</p>
+                <button class="close-button" id="personContinueBtn">Variante wählen</button>
+            </div>
+        </div>
+
         <!-- Gewonnenes Item Anzeige -->
         <div class="won-overlay" id="wonItemDisplay">
             <div class="won-content" id="wonContent">
@@ -48,7 +108,8 @@
                 <img src="" alt="" id="wonItemImage" class="won-image">
                 <h2 id="wonItemName" class="won-name"></h2>
                 <p id="wonItemRarity" class="won-rarity"></p>
-                <button class="close-button">Weiter</button>
+                <p class="won-player">Gewonnen von: <span id="wonByPlayer">-</span></p>
+                <button class="close-button">Nächste Runde</button>
             </div>
         </div>
     </div>
