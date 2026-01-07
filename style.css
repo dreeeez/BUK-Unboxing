@@ -620,6 +620,211 @@ body {
 }
 
 /* ==================== RESPONSIVE ==================== */
+
+/* Große Laptops / kleinere Desktops (max-height für Laptop-Screens) */
+@media (max-height: 900px) {
+    .roll-section {
+        margin-top: 20px;
+    }
+
+    .roll-item {
+        width: 130px;
+        height: 130px;
+        padding: 10px;
+    }
+
+    .roll-window {
+        height: 130px;
+    }
+
+    .roll-item img {
+        max-width: 75px;
+        max-height: 75px;
+        margin-bottom: 5px;
+    }
+
+    .roll-item span {
+        font-size: 0.8rem;
+    }
+
+    .header {
+        padding: 15px 20px 10px;
+    }
+
+    .header-logo {
+        max-width: 400px;
+    }
+
+    .button-section {
+        margin-top: 20px;
+    }
+
+    .unbox-button {
+        padding: 12px 35px;
+        font-size: 1.1rem;
+    }
+
+    .rewards-sidebar {
+        bottom: 20px;
+        padding: 8px;
+        gap: 6px;
+    }
+
+    .rewards-left {
+        bottom: 20px;
+    }
+
+    .rewards-right {
+        bottom: 180px;
+    }
+
+    .sidebar-item {
+        width: 100px;
+        padding: 8px 6px;
+    }
+
+    .sidebar-item img {
+        max-width: 60px;
+        max-height: 60px;
+        margin-bottom: 5px;
+    }
+
+    .sidebar-item h3 {
+        font-size: 0.65rem;
+    }
+
+    .sidebar-item .rarity-label {
+        font-size: 0.5rem;
+    }
+}
+
+/* Noch kleinere Höhe */
+@media (max-height: 800px) {
+    .roll-section {
+        margin-top: 10px;
+    }
+
+    .roll-item {
+        width: 110px;
+        height: 110px;
+    }
+
+    .roll-window {
+        height: 110px;
+    }
+
+    .roll-item img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+
+    .roll-item span {
+        font-size: 0.75rem;
+    }
+
+    .header-logo {
+        max-width: 350px;
+    }
+
+    .button-section {
+        margin-top: 15px;
+    }
+
+    .unbox-button {
+        padding: 10px 30px;
+        font-size: 1rem;
+    }
+
+    .sidebar-item {
+        width: 85px;
+        padding: 6px 5px;
+    }
+
+    .sidebar-item img {
+        max-width: 50px;
+        max-height: 50px;
+    }
+
+    .rewards-right {
+        bottom: 160px;
+    }
+}
+
+/* Breiten-basierte Breakpoints */
+@media (max-width: 1600px) {
+    .roll-section {
+        max-width: 1100px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .roll-section {
+        max-width: 900px;
+    }
+
+    .roll-item {
+        width: 140px;
+        height: 140px;
+    }
+
+    .roll-window {
+        height: 140px;
+    }
+
+    .roll-item img {
+        max-width: 85px;
+        max-height: 85px;
+    }
+
+    .header-logo {
+        max-width: 450px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .roll-section {
+        max-width: 700px;
+        margin-top: 30px;
+    }
+
+    .roll-item {
+        width: 120px;
+        height: 120px;
+    }
+
+    .roll-window {
+        height: 120px;
+    }
+
+    .roll-item img {
+        max-width: 70px;
+        max-height: 70px;
+    }
+
+    .roll-item span {
+        font-size: 0.85rem;
+    }
+
+    .header-logo {
+        max-width: 380px;
+    }
+
+    .button-section {
+        margin-top: 25px;
+    }
+
+    .unbox-button {
+        padding: 14px 40px;
+        font-size: 1.1rem;
+    }
+
+    .rewards-sidebar {
+        display: none;
+    }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
     .header-logo {
         max-width: 280px;
@@ -642,6 +847,10 @@ body {
     .roll-item img {
         max-width: 35px;
         max-height: 35px;
+    }
+
+    .roll-item span {
+        font-size: 0.7rem;
     }
 
     .button-section {
