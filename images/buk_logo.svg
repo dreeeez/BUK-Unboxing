@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700"/>
+      <stop offset="50%" style="stop-color:#ffaa00"/>
+      <stop offset="100%" style="stop-color:#d4a853"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- BUK Text -->
+  <text x="300" y="90" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="120" font-weight="900" fill="url(#goldGradient)" filter="url(#shadow)">
+    BUK
+  </text>
+
+  <!-- UNBOXING Text -->
+  <text x="300" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="400" fill="#ffffff" letter-spacing="18" filter="url(#glow)">
+    UNBOXING
+  </text>
+
+  <!-- Decorative line -->
+  <line x1="100" y1="180" x2="500" y2="180" stroke="url(#goldGradient)" stroke-width="2" opacity="0.5"/>
+</svg>

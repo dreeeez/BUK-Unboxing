@@ -10,26 +10,51 @@
 
 const PERSONS = {
     U18: [
-        { name: "Max Mustermann" },
-        { name: "Lisa Schmidt" },
-        { name: "Tom Weber" },
-        { name: "Anna Müller" },
-        { name: "Felix Braun" },
-        { name: "Sophie Wagner" },
-        { name: "Leon Fischer" },
-        { name: "Emma Hoffmann" },
+        { name: "Max Mustermann", gender: "m" },
+        { name: "Lisa Schmidt", gender: "f" },
+        { name: "Tom Weber", gender: "m" },
+        { name: "Anna Müller", gender: "f" },
+        { name: "Felix Braun", gender: "m" },
+        { name: "Sophie Wagner", gender: "f" },
+        { name: "Leon Fischer", gender: "m" },
+        { name: "Emma Hoffmann", gender: "f" },
         // Füge hier weitere U18 Personen hinzu
     ],
     U26: [
-        { name: "Michael Schneider" },
-        { name: "Julia Becker" },
-        { name: "David Koch" },
-        { name: "Laura Richter" },
-        { name: "Niklas Wolf" },
-        { name: "Sarah Klein" },
-        { name: "Jan Schulz" },
-        { name: "Marie Neumann" },
-        // Füge hier weitere U26 Samvirk Personen hinzu
+        // Jungs (m)
+        { name: "Samuel Mihai Anton", image: "Pofile Pictures/U26 Samvirk/Samuel Anton.jpg", gender: "m" },
+        { name: "Sebastian jr. Anton", image: "Pofile Pictures/U26 Samvirk/Sebastian Anton.jpg", gender: "m" },
+        { name: "Juan Gabriel Bojoi", image: "Pofile Pictures/U26 Samvirk/Juan Gabriel.jpg", gender: "m" },
+        { name: "Henrik Sven Fächner", image: "Pofile Pictures/U26 Samvirk/Henrik Fächner.mov", gender: "m" },
+        { name: "Finn Arild Grupp", image: "Pofile Pictures/U26 Samvirk/Finn Grupp.jpg", gender: "m" },
+        { name: "Lius Höfer", image: "Pofile Pictures/U26 Samvirk/Lius Höfer.jpg", gender: "m" },
+        { name: "Marc Andre Höfer", image: "Pofile Pictures/U26 Samvirk/Marc Höfer.jpg", gender: "m" },
+        { name: "Tim-Lukas Höfer", image: "Pofile Pictures/U26 Samvirk/Tim Lukas Höfer.jpg", gender: "m" },
+        { name: "Daniel Kern", image: "Pofile Pictures/U26 Samvirk/Daniel Kern.jpg", gender: "m" },
+        { name: "Harry Kern", image: "Pofile Pictures/U26 Samvirk/Harry Kern.jpg", gender: "m" },
+        { name: "Hartmut Kern", image: "Pofile Pictures/U26 Samvirk/Hartmut Kern.jpg", gender: "m" },
+        { name: "Kari Kern", image: "Pofile Pictures/U26 Samvirk/Kari Kern.jpg", gender: "m" },
+        { name: "Theo Kern", image: "Pofile Pictures/U26 Samvirk/Theo Kern.jpg", gender: "m" },
+        { name: "Romeo Kolb", image: "Pofile Pictures/U26 Samvirk/Romeo Kolb.jpg", gender: "m" },
+        { name: "Kevin Maier", image: "Pofile Pictures/U26 Samvirk/Kevin Maier.jpg", gender: "m" },
+        { name: "Leon Maier", image: "Pofile Pictures/U26 Samvirk/Leon Maier.jpg", gender: "m" },
+        { name: "Tom Maier", image: "Pofile Pictures/U26 Samvirk/Tom Maier.jpg", gender: "m" },
+        { name: "William Manoli", image: "Pofile Pictures/U26 Samvirk/William Manoli.jpg", gender: "m" },
+        { name: "Henning Müller", image: "Pofile Pictures/U26 Samvirk/Henning Müller.jpg", gender: "m" },
+        { name: "Jannik Noel Müller", image: "Pofile Pictures/U26 Samvirk/Jannik Müller.jpg", gender: "m" },
+        { name: "Marcel Müller", image: null, gender: "m" },
+        { name: "Phil Rube", image: "Pofile Pictures/U26 Samvirk/Phil Rube.jpg", gender: "m" },
+        { name: "Sean Andrew Rube", image: "Pofile Pictures/U26 Samvirk/Sean Rube.mov", gender: "m" },
+        { name: "Marco Andres Schneider", image: "Pofile Pictures/U26 Samvirk/Marco Schneider.jpg", gender: "m" },
+        { name: "Julian Magnus Lionel Schniepp", image: "Pofile Pictures/U26 Samvirk/Julian Schniepp.jpg", gender: "m" },
+        { name: "Paul Schwarz", image: "Pofile Pictures/U26 Samvirk/Paul Schwarz.jpg", gender: "m" },
+        // Mädels (f)
+        { name: "Julia Elaine Fächner", image: "Pofile Pictures/U26 Samvirk/Julia Fächner.jpg", gender: "f" },
+        { name: "Raluca Lozneanu", image: "Pofile Pictures/U26 Samvirk/Raluca .jpg", gender: "f" },
+        { name: "Cindy Maier", image: null, gender: "f" },
+        { name: "Simona Nahorne", image: null, gender: "f" },
+        { name: "Jill Rube", image: "Pofile Pictures/U26 Samvirk/Jill Rube.jpg", gender: "f" },
+        { name: "Jana Schmidt", image: "Pofile Pictures/U26 Samvirk/Jana Schmidt.jpg", gender: "f" },
     ]
 };
 
@@ -60,38 +85,38 @@ const ITEMS_U18 = {
     // SAVE Variante - Sichere Items, keine Strafen
     SAVE: [
         // Common
-        { name: "Süßigkeiten-Tüte", image: "images/placeholder.png", rarity: "common", weight: 50 },
-        { name: "Kino-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 45 },
-        { name: "Snack-Box", image: "images/placeholder.png", rarity: "common", weight: 40 },
+        { name: "Süßigkeiten-Tüte", image: "images/placeholder.png", rarity: "common", weight: 50, desc: "Zucker-Rush incoming! Dein Zahnarzt wird begeistert sein." },
+        { name: "Kino-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 45, desc: "Popcorn, großer Becher Cola und ein guter Film. Perfekt!" },
+        { name: "Snack-Box", image: "images/placeholder.png", rarity: "common", weight: 40, desc: "Eine Box voller Leckereien. Teilen? Niemals!" },
         // Rare
-        { name: "Gaming-Maus", image: "images/placeholder.png", rarity: "rare", weight: 25 },
-        { name: "Kopfhörer", image: "images/placeholder.png", rarity: "rare", weight: 20 },
+        { name: "Gaming-Maus", image: "images/placeholder.png", rarity: "rare", weight: 25, desc: "Mehr DPI = mehr Skill. Oder so ähnlich..." },
+        { name: "Kopfhörer", image: "images/placeholder.png", rarity: "rare", weight: 20, desc: "Musik an, Welt aus. So muss das sein!" },
         // Epic
-        { name: "Bluetooth Speaker", image: "images/placeholder.png", rarity: "epic", weight: 10 },
+        { name: "Bluetooth Speaker", image: "images/placeholder.png", rarity: "epic", weight: 10, desc: "Party-Modus aktiviert! Bass, der die Wände wackeln lässt." },
         // Legendary
-        { name: "Nintendo Switch Spiel", image: "images/placeholder.png", rarity: "legendary", weight: 5 },
+        { name: "Nintendo Switch Spiel", image: "images/placeholder.png", rarity: "legendary", weight: 5, desc: "Ein neues Abenteuer wartet! Gaming-Session incoming!" },
     ],
 
     // ALL-IN Variante - Bessere Items möglich, aber auch Strafen
     ALL_IN: [
         // Common
-        { name: "Süßigkeiten-Tüte", image: "images/placeholder.png", rarity: "common", weight: 30 },
-        { name: "Kino-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 25 },
+        { name: "Süßigkeiten-Tüte", image: "images/placeholder.png", rarity: "common", weight: 30, desc: "Zucker-Rush incoming! Dein Zahnarzt wird begeistert sein." },
+        { name: "Kino-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 25, desc: "Popcorn, großer Becher Cola und ein guter Film. Perfekt!" },
         // Rare
-        { name: "Gaming-Maus", image: "images/placeholder.png", rarity: "rare", weight: 20 },
-        { name: "Kopfhörer", image: "images/placeholder.png", rarity: "rare", weight: 18 },
+        { name: "Gaming-Maus", image: "images/placeholder.png", rarity: "rare", weight: 20, desc: "Mehr DPI = mehr Skill. Oder so ähnlich..." },
+        { name: "Kopfhörer", image: "images/placeholder.png", rarity: "rare", weight: 18, desc: "Musik an, Welt aus. So muss das sein!" },
         // Epic
-        { name: "Bluetooth Speaker", image: "images/placeholder.png", rarity: "epic", weight: 15 },
-        { name: "Powerbank Premium", image: "images/placeholder.png", rarity: "epic", weight: 12 },
+        { name: "Bluetooth Speaker", image: "images/placeholder.png", rarity: "epic", weight: 15, desc: "Party-Modus aktiviert! Bass, der die Wände wackeln lässt." },
+        { name: "Powerbank Premium", image: "images/placeholder.png", rarity: "epic", weight: 12, desc: "Nie wieder leerer Akku! Dein Handy wird dich lieben." },
         // Legendary
-        { name: "Nintendo Switch Spiel", image: "images/placeholder.png", rarity: "legendary", weight: 8 },
-        { name: "AirPods", image: "images/airpods.png", rarity: "legendary", weight: 5 },
+        { name: "Nintendo Switch Spiel", image: "images/placeholder.png", rarity: "legendary", weight: 8, desc: "Ein neues Abenteuer wartet! Gaming-Session incoming!" },
+        { name: "AirPods", image: "images/airpods.png", rarity: "legendary", weight: 5, desc: "Kabellose Freiheit! Sieht auch noch stylisch aus." },
         // S-Tier
-        { name: "Freizeitpark-Ticket", image: "images/placeholder.png", rarity: "stier", weight: 2 },
+        { name: "Freizeitpark-Ticket", image: "images/placeholder.png", rarity: "stier", weight: 2, desc: "Achterbahnen, Zuckerwatte und Adrenalin! Der beste Tag ever!" },
         // Strafen
-        { name: "Toiletten putzen", image: "images/placeholder.png", rarity: "punishment", weight: 15 },
-        { name: "Küchendienst", image: "images/placeholder.png", rarity: "punishment", weight: 12 },
-        { name: "Früh aufstehen", image: "images/placeholder.png", rarity: "punishment", weight: 10 },
+        { name: "Toiletten putzen", image: "images/placeholder.png", rarity: "punishment", weight: 15, desc: "Zeit für einen Frühjahrsputz! Die Klobürste ruft..." },
+        { name: "Küchendienst", image: "images/placeholder.png", rarity: "punishment", weight: 12, desc: "Spülen, Abtrocknen, Aufräumen. Spaß garantiert... oder auch nicht." },
+        { name: "Früh aufstehen", image: "images/placeholder.png", rarity: "punishment", weight: 10, desc: "Der frühe Vogel fängt den Wurm! Aufstehen um 6 Uhr!" },
     ]
 };
 
@@ -101,38 +126,38 @@ const ITEMS_U26 = {
     // SAVE Variante - Sichere Items, keine Strafen
     SAVE: [
         // Common
-        { name: "Kaffee-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 50 },
-        { name: "Snack-Paket", image: "images/placeholder.png", rarity: "common", weight: 45 },
-        { name: "Getränke-Flatrate", image: "images/placeholder.png", rarity: "common", weight: 40 },
+        { name: "Kaffee-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 50, desc: "Koffein-Kick gefällig? Damit bleibst du wach... vielleicht." },
+        { name: "Snack-Paket", image: "images/placeholder.png", rarity: "common", weight: 45, desc: "Füttere deinen inneren Hamster. Nom nom nom!" },
+        { name: "Getränke-Flatrate", image: "images/placeholder.png", rarity: "common", weight: 40, desc: "Trink so viel du willst! Deine Blase wird es lieben." },
         // Rare
-        { name: "Restaurant-Gutschein", image: "images/placeholder.png", rarity: "rare", weight: 25 },
-        { name: "Spotify Premium", image: "images/placeholder.png", rarity: "rare", weight: 20 },
+        { name: "Restaurant-Gutschein", image: "images/placeholder.png", rarity: "rare", weight: 25, desc: "Endlich mal nicht selber kochen müssen. Luxus!" },
+        { name: "Spotify Premium", image: "images/placeholder.png", rarity: "rare", weight: 20, desc: "Keine Werbung mehr! Deine Ohren werden dir danken." },
         // Epic
-        { name: "Wellness-Gutschein", image: "images/placeholder.png", rarity: "epic", weight: 10 },
+        { name: "Wellness-Gutschein", image: "images/placeholder.png", rarity: "epic", weight: 10, desc: "Entspannung pur. Wie ein Urlaub, nur kürzer." },
         // Legendary
-        { name: "Konzertkarten", image: "images/placeholder.png", rarity: "legendary", weight: 5 },
+        { name: "Konzertkarten", image: "images/placeholder.png", rarity: "legendary", weight: 5, desc: "Live-Musik! Deine Nachbarn werden neidisch sein." },
     ],
 
     // ALL-IN Variante - Bessere Items möglich, aber auch Strafen
     ALL_IN: [
         // Common
-        { name: "Kaffee-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 30 },
-        { name: "Snack-Paket", image: "images/placeholder.png", rarity: "common", weight: 25 },
+        { name: "Kaffee-Gutschein", image: "images/placeholder.png", rarity: "common", weight: 30, desc: "Koffein-Kick gefällig? Damit bleibst du wach... vielleicht." },
+        { name: "Snack-Paket", image: "images/placeholder.png", rarity: "common", weight: 25, desc: "Füttere deinen inneren Hamster. Nom nom nom!" },
         // Rare
-        { name: "Restaurant-Gutschein", image: "images/placeholder.png", rarity: "rare", weight: 20 },
-        { name: "Spotify Premium", image: "images/placeholder.png", rarity: "rare", weight: 18 },
+        { name: "Restaurant-Gutschein", image: "images/placeholder.png", rarity: "rare", weight: 20, desc: "Endlich mal nicht selber kochen müssen. Luxus!" },
+        { name: "Spotify Premium", image: "images/placeholder.png", rarity: "rare", weight: 18, desc: "Keine Werbung mehr! Deine Ohren werden dir danken." },
         // Epic
-        { name: "Wellness-Gutschein", image: "images/placeholder.png", rarity: "epic", weight: 15 },
-        { name: "Gaming-Zubehör", image: "images/placeholder.png", rarity: "epic", weight: 12 },
+        { name: "Wellness-Gutschein", image: "images/placeholder.png", rarity: "epic", weight: 15, desc: "Entspannung pur. Wie ein Urlaub, nur kürzer." },
+        { name: "Gaming-Zubehör", image: "images/placeholder.png", rarity: "epic", weight: 12, desc: "Level up dein Gaming! Mehr FPS, mehr Spaß!" },
         // Legendary
-        { name: "Konzertkarten", image: "images/placeholder.png", rarity: "legendary", weight: 8 },
-        { name: "AirPods Pro", image: "images/airpods.png", rarity: "legendary", weight: 5 },
+        { name: "Konzertkarten", image: "images/placeholder.png", rarity: "legendary", weight: 8, desc: "Live-Musik! Deine Nachbarn werden neidisch sein." },
+        { name: "AirPods Pro", image: "images/airpods.png", rarity: "legendary", weight: 5, desc: "Noise-Cancelling für nervige Kollegen. Genial!" },
         // S-Tier
-        { name: "Fallschirm Sprung", image: "images/fallschirm.webp", rarity: "stier", weight: 2 },
+        { name: "Fallschirm Sprung", image: "images/fallschirm.webp", rarity: "stier", weight: 2, desc: "YOLO! Einmal aus einem Flugzeug springen. Adrenalin pur!" },
         // Strafen
-        { name: "Karaoke singen", image: "images/placeholder.png", rarity: "punishment", weight: 15 },
-        { name: "Aufräum-Dienst", image: "images/placeholder.png", rarity: "punishment", weight: 12 },
-        { name: "Weck-Service um 6 Uhr", image: "images/placeholder.png", rarity: "punishment", weight: 10 },
+        { name: "Karaoke singen", image: "images/placeholder.png", rarity: "punishment", weight: 15, desc: "Zeit zu glänzen! Oder alle Ohren zum Bluten zu bringen..." },
+        { name: "Aufräum-Dienst", image: "images/placeholder.png", rarity: "punishment", weight: 12, desc: "Putzen ist auch Sport! Quasi ein Ganzkörper-Workout." },
+        { name: "Weck-Service um 6 Uhr", image: "images/placeholder.png", rarity: "punishment", weight: 10, desc: "Guten Morgen Sonnenschein! Zeit für Frühaufsteher-Vibes." },
     ]
 };
 
@@ -152,4 +177,65 @@ function getItemsForMode(mode, variant) {
  */
 function getPersonsForMode(mode) {
     return mode === 'U18' ? PERSONS.U18 : PERSONS.U26;
+}
+
+/**
+ * FAIRES BALANCING: Wählt eine Person fair aus
+ * - 50% Chance für Mädchen, 50% Chance für Jungs
+ * - Dann zufällige Auswahl innerhalb der Gruppe
+ * - Falls eine Gruppe leer ist, wird aus der anderen gewählt
+ */
+function selectFairPerson(persons, excludeNames = []) {
+    // Filtere bereits ausgewählte Personen
+    const available = persons.filter(p => !excludeNames.includes(p.name));
+
+    if (available.length === 0) return null;
+
+    // Teile in Gruppen
+    const males = available.filter(p => p.gender === 'm');
+    const females = available.filter(p => p.gender === 'f');
+
+    // Bestimme welche Gruppe gewählt wird (50/50)
+    let selectedGroup;
+
+    if (males.length === 0) {
+        selectedGroup = females;
+    } else if (females.length === 0) {
+        selectedGroup = males;
+    } else {
+        // 50/50 Chance
+        selectedGroup = Math.random() < 0.5 ? males : females;
+    }
+
+    // Zufällige Person aus der Gruppe
+    const randomIndex = Math.floor(Math.random() * selectedGroup.length);
+    return selectedGroup[randomIndex];
+}
+
+/**
+ * Erstellt eine faire Track-Liste für die Animation
+ * - Abwechselnd Mädchen und Jungs wo möglich
+ * - Gewinner wird fair mit 50/50 bestimmt
+ */
+function createFairTrackList(persons, count, winner) {
+    const track = [];
+    const males = persons.filter(p => p.gender === 'm');
+    const females = persons.filter(p => p.gender === 'f');
+
+    for (let i = 0; i < count - 1; i++) {
+        // Abwechselnd aus beiden Gruppen für visuelle Fairness
+        let pool;
+        if (i % 2 === 0) {
+            pool = males.length > 0 ? males : females;
+        } else {
+            pool = females.length > 0 ? females : males;
+        }
+        const randomPerson = pool[Math.floor(Math.random() * pool.length)];
+        track.push(randomPerson);
+    }
+
+    // Gewinner am Ende
+    track.push(winner);
+
+    return track;
 }

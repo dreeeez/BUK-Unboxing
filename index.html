@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BUK Unboxing Waldhausen</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Centered Box Image -->
+    <div class="center-box" id="centerBox">
+        <img src="images/UNBOXING-BOX.png" alt="Unboxing Box">
+    </div>
+
+    <!-- Floating Particles beim Spin -->
+    <div class="spin-particles" id="spinParticles"></div>
+
     <div class="app">
         <!-- BUK Header - Ganz oben -->
         <header class="header">
-            <img src="images/BUK_Header.png" alt="BUK Unboxing" class="header-logo">
+            <img src="images/BUK Unboxing Logo.svg" alt="BUK Unboxing" class="header-logo">
+            <span class="header-subtitle">WALDHAUSEN</span>
         </header>
 
         <!-- Modus Anzeige (oben rechts) -->
         <div class="mode-display" id="modeDisplay">
             <span class="mode-label">Modus:</span>
+            <img src="images/BUK_logo.png" alt="BUK" class="mode-display-logo" id="modeDisplayLogoBuk">
+            <img src="images/Samvirk_logo.png" alt="Samvirk" class="mode-display-logo" id="modeDisplayLogoSamvirk">
             <span class="mode-value" id="currentModeDisplay">Nicht gewählt</span>
             <button class="mode-switch-btn" id="modeSwitchBtn">Wechseln</button>
         </div>
@@ -23,13 +35,16 @@
         <!-- Modus Auswahl Overlay (U18 / U26) -->
         <div class="mode-overlay" id="modeOverlay">
             <div class="mode-content">
+                <img src="images/BUK%20Unboxing%20Logo.svg" alt="BUK Unboxing" class="mode-logo">
                 <h2 class="mode-title">Wähle deinen Modus</h2>
                 <div class="mode-buttons">
                     <button class="mode-btn mode-u18" data-mode="U18">
+                        <img src="images/BUK_logo.png" alt="BUK" class="mode-btn-logo">
                         <span class="mode-btn-title">U18</span>
                         <span class="mode-btn-desc">Jugendliche</span>
                     </button>
                     <button class="mode-btn mode-u26" data-mode="U26">
+                        <img src="images/Samvirk_logo.png" alt="Samvirk" class="mode-btn-logo">
                         <span class="mode-btn-title">U26 Samvirk</span>
                         <span class="mode-btn-desc">Junge Erwachsene</span>
                     </button>
@@ -40,17 +55,34 @@
         <!-- Varianten Auswahl Overlay (All-in / Save) -->
         <div class="variant-overlay" id="variantOverlay">
             <div class="variant-content">
+                <img src="images/BUK%20Unboxing%20Logo.svg" alt="BUK Unboxing" class="variant-logo">
                 <h2 class="variant-title">Wähle deine Variante</h2>
-                <p class="variant-player">Spieler: <span id="currentPlayerName">-</span></p>
+                <div class="variant-player-info">
+                    <div class="variant-player-avatar" id="variantPlayerAvatar">👤</div>
+                    <p class="variant-player-name" id="currentPlayerName">-</p>
+                </div>
                 <div class="variant-buttons">
-                    <button class="variant-btn variant-save" data-variant="SAVE">
-                        <span class="variant-btn-title">🛡️ SAVE</span>
-                        <span class="variant-btn-desc">Sichere Gewinne, keine Strafen</span>
-                    </button>
-                    <button class="variant-btn variant-allin" data-variant="ALL_IN">
-                        <span class="variant-btn-title">🔥 ALL IN</span>
-                        <span class="variant-btn-desc">Bessere Items, aber auch Strafen möglich!</span>
-                    </button>
+                    <div class="variant-column variant-column-save">
+                        <button class="variant-btn variant-save" data-variant="SAVE">
+                            <span class="variant-btn-title">SAVE</span>
+                            <span class="variant-btn-desc">Sichere Gewinne, keine Strafen</span>
+                        </button>
+                        <div class="variant-rewards" id="saveRewards"></div>
+                    </div>
+                    <div class="variant-column variant-column-allin">
+                        <button class="variant-btn variant-allin" data-variant="ALL_IN">
+                            <span class="variant-btn-title">ALL IN</span>
+                            <span class="variant-btn-desc">Bessere Items, aber auch Strafen möglich!</span>
+                        </button>
+                        <div class="variant-rewards" id="allinRewards"></div>
+                    </div>
+                </div>
+                <!-- Dynamische Reward Preview (wechselt Seite) -->
+                <div class="reward-preview-panel position-right" id="rewardPreviewPanel">
+                    <img src="" alt="" id="rewardPreviewImg">
+                    <h4 id="rewardPreviewName">Item Name</h4>
+                    <span id="rewardPreviewRarity">Rarity</span>
+                    <p class="reward-preview-desc" id="rewardPreviewDesc">Beschreibung...</p>
                 </div>
             </div>
         </div>
@@ -66,22 +98,101 @@
         </div>
 
         <!-- Aktueller Spieler Anzeige -->
-        <div class="player-display" id="playerDisplay">
-            <span class="player-label">Spieler:</span>
-            <span class="player-name" id="playerName">-</span>
+        <div class="player-display hidden" id="playerDisplay">
+            <img src="" alt="" class="player-avatar" id="playerAvatar">
+            <span class="player-name" id="playerName"></span>
             <span class="player-variant" id="playerVariant"></span>
         </div>
 
         <!-- Unbox Button - Direkt über der Box -->
         <div class="button-section">
+            <img src="images/favicon.svg" alt="" class="button-icon button-icon-left">
             <button class="unbox-button" id="rollButton">
                 <span class="button-text">SPIN PERSON</span>
             </button>
+            <img src="images/favicon.svg" alt="" class="button-icon button-icon-right">
         </div>
 
-        <!-- Rewards Links und Rechts -->
-        <div class="rewards-sidebar rewards-left" id="rewardsLeft"></div>
-        <div class="rewards-sidebar rewards-right" id="rewardsRight"></div>
+        <!-- Rewards Links (einklappbar) -->
+        <div class="sidebar-wrapper left" id="sidebarWrapperLeft">
+            <div class="sidebar-trigger">
+                <span class="sidebar-trigger-icon">▲</span>
+            </div>
+            <div class="rewards-sidebar rewards-left" id="rewardsLeft"></div>
+        </div>
+
+        <!-- Rewards Rechts (einklappbar) -->
+        <div class="sidebar-wrapper right" id="sidebarWrapperRight">
+            <div class="sidebar-trigger">
+                <span class="sidebar-trigger-icon">▲</span>
+            </div>
+            <div class="rewards-sidebar rewards-right" id="rewardsRight"></div>
+        </div>
+
+        <!-- History Log (4 Kreise unten Mitte) -->
+        <div class="history-log" id="historyLog">
+            <div class="history-slot" data-slot="0">
+                <div class="history-circle">?</div>
+            </div>
+            <div class="history-slot" data-slot="1">
+                <div class="history-circle">?</div>
+            </div>
+            <div class="history-slot" data-slot="2">
+                <div class="history-circle">?</div>
+            </div>
+            <div class="history-slot" data-slot="3">
+                <div class="history-circle">?</div>
+            </div>
+        </div>
+
+        <!-- History Popup (zeigt alle 4 Gewinner) -->
+        <div class="history-popup" id="historyPopup">
+            <div class="history-popup-content">
+                <h3 class="history-popup-title">Gewinner-Übersicht</h3>
+                <div class="history-popup-grid">
+                    <div class="history-popup-column" data-column="0">
+                        <div class="history-popup-avatar">?</div>
+                        <p class="history-popup-name">-</p>
+                        <p class="history-popup-variant">-</p>
+                        <div class="history-popup-item">
+                            <img src="" alt="">
+                            <span class="history-popup-item-name">-</span>
+                            <span class="history-popup-item-rarity">-</span>
+                        </div>
+                    </div>
+                    <div class="history-popup-column" data-column="1">
+                        <div class="history-popup-avatar">?</div>
+                        <p class="history-popup-name">-</p>
+                        <p class="history-popup-variant">-</p>
+                        <div class="history-popup-item">
+                            <img src="" alt="">
+                            <span class="history-popup-item-name">-</span>
+                            <span class="history-popup-item-rarity">-</span>
+                        </div>
+                    </div>
+                    <div class="history-popup-column" data-column="2">
+                        <div class="history-popup-avatar">?</div>
+                        <p class="history-popup-name">-</p>
+                        <p class="history-popup-variant">-</p>
+                        <div class="history-popup-item">
+                            <img src="" alt="">
+                            <span class="history-popup-item-name">-</span>
+                            <span class="history-popup-item-rarity">-</span>
+                        </div>
+                    </div>
+                    <div class="history-popup-column" data-column="3">
+                        <div class="history-popup-avatar">?</div>
+                        <p class="history-popup-name">-</p>
+                        <p class="history-popup-variant">-</p>
+                        <div class="history-popup-item">
+                            <img src="" alt="">
+                            <span class="history-popup-item-name">-</span>
+                            <span class="history-popup-item-rarity">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Item Preview über der Box -->
         <div class="item-preview" id="itemPreview">
