@@ -833,7 +833,8 @@ class UnboxingApp {
             ${avatarContent}
             <span>${displayName}</span>
         `;
-        trackItems[winningPosition].className = 'roll-item person-item winning';
+        // WICHTIG: Keine 'winning' Klasse während des Spins - wird erst nach dem Stopp hinzugefügt
+        trackItems[winningPosition].className = 'roll-item person-item';
 
         // Dynamische Item-Breite ermitteln
         const itemWidth = this.getItemWidth();
@@ -849,6 +850,8 @@ class UnboxingApp {
 
         setTimeout(() => {
             this.stopSpinAnimations();
+            // Jetzt erst die 'winning' Klasse hinzufügen (nach dem Stopp)
+            trackItems[winningPosition].classList.add('winning');
             this.showPersonWon(winningPerson);
             this.isSpinning = false;
             // Spieler-Anzeige mit Avatar einblenden
