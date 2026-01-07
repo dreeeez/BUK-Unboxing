@@ -100,7 +100,7 @@ const PERSONS = {
     ]
 };
 
-// ==================== ITEM KONFIGURATION ====================
+// ================= ITEM KONFIGURATION ===================
 
 /**
  * Seltenheitsstufen:
