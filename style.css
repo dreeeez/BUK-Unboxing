@@ -2280,6 +2280,59 @@ video.person-avatar-img {
     .sidebar-item .rarity-label {
         font-size: 0.5rem;
     }
+
+    /* 1. Winner/Cooked Videos kleiner */
+    .won-side-video {
+        width: 180px;
+        height: 260px;
+    }
+
+    .won-side-left {
+        left: calc(15% - 90px);
+    }
+
+    .won-side-right {
+        right: calc(15% - 90px);
+    }
+
+    /* 2. Preview Panel kleiner und in Ecken */
+    .reward-preview-panel {
+        padding: 20px;
+        width: 220px;
+        min-height: 300px;
+    }
+
+    .reward-preview-panel.position-left {
+        left: 30px;
+    }
+
+    .reward-preview-panel.position-right {
+        right: 30px;
+    }
+
+    .reward-preview-panel img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 15px;
+    }
+
+    .reward-preview-panel h4 {
+        font-size: 1rem;
+    }
+
+    .reward-preview-panel span {
+        font-size: 0.75rem;
+    }
+
+    .reward-preview-panel .reward-preview-desc {
+        font-size: 0.75rem;
+        width: 180px;
+    }
+
+    /* 3. Mehr Platz oberhalb des Player Display */
+    .player-display {
+        margin-top: 30px;
+    }
 }
 
 /* Noch kleinere Höhe */
