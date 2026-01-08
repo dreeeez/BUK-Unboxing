@@ -1796,32 +1796,32 @@ body {
     }
 
     .roll-item {
-        width: 130px;
-        height: 130px;
-        padding: 10px;
+        width: 150px;
+        height: 150px;
+        padding: 12px;
     }
 
     .roll-window {
-        height: 130px;
+        height: 150px;
     }
 
     .roll-item img {
-        max-width: 75px;
-        max-height: 75px;
+        max-width: 85px;
+        max-height: 85px;
         margin-bottom: 5px;
     }
 
     .person-avatar-img {
-        width: 70px;
-        height: 70px;
+        width: 80px;
+        height: 80px;
     }
 
     .person-avatar {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
     }
 
     .roll-item span {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
 
     .header {
@@ -1836,7 +1836,7 @@ body {
     }
 
     .button-section {
-        margin-top: 20px;
+        margin-top: 50px;
     }
 
     .unbox-button {
