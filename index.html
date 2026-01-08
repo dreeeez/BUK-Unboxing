@@ -53,6 +53,16 @@
             </div>
         </div>
 
+        <!-- Musik Auswahl Overlay -->
+        <div class="music-overlay" id="musicOverlay">
+            <div class="music-content">
+                <h2 class="music-title">Wähle deinen Song</h2>
+                <div class="music-cards" id="musicCards">
+                    <!-- Cards werden dynamisch generiert -->
+                </div>
+            </div>
+        </div>
+
         <!-- Varianten Auswahl Overlay (All-in / Save) -->
         <div class="variant-overlay" id="variantOverlay">
             <div class="variant-content">
@@ -64,15 +74,15 @@
                 <div class="variant-buttons">
                     <div class="variant-column variant-column-save">
                         <button class="variant-btn variant-save" data-variant="SAVE">
+                            <video class="variant-btn-video" id="saveBgVideo" muted loop playsinline></video>
                             <span class="variant-btn-title">SAVE</span>
-                            <span class="variant-btn-desc">Sichere Gewinne, keine Strafen</span>
                         </button>
                         <div class="variant-rewards" id="saveRewards"></div>
                     </div>
                     <div class="variant-column variant-column-allin">
                         <button class="variant-btn variant-allin" data-variant="ALL_IN">
+                            <video class="variant-btn-video" id="allinBgVideo" muted loop playsinline></video>
                             <span class="variant-btn-title">ALL IN</span>
-                            <span class="variant-btn-desc">Bessere Items, aber auch Strafen möglich!</span>
                         </button>
                         <div class="variant-rewards" id="allinRewards"></div>
                     </div>
@@ -99,7 +109,7 @@
 
         <!-- Aktueller Spieler Anzeige -->
         <div class="player-display hidden" id="playerDisplay">
-            <img src="" alt="" class="player-avatar" id="playerAvatar">
+            <div class="player-avatar-container" id="playerAvatarContainer"></div>
             <span class="player-name" id="playerName"></span>
             <span class="player-variant" id="playerVariant"></span>
         </div>
@@ -214,12 +224,23 @@
 
         <!-- Gewonnenes Item Anzeige -->
         <div class="won-overlay" id="wonItemDisplay">
+            <!-- Seitliche Videos -->
+            <div class="won-side-video won-side-left">
+                <video id="wonVideoLeft" muted loop playsinline></video>
+            </div>
+            <div class="won-side-video won-side-right">
+                <video id="wonVideoRight" muted loop playsinline></video>
+            </div>
             <div class="won-content" id="wonContent">
                 <div class="won-glow"></div>
                 <img src="" alt="" id="wonItemImage" class="won-image">
                 <h2 id="wonItemName" class="won-name"></h2>
                 <p id="wonItemRarity" class="won-rarity"></p>
-                <p class="won-player">Gewonnen von: <span id="wonByPlayer">-</span></p>
+                <div class="won-player">
+                    <span class="won-player-label">Gewonnen von:</span>
+                    <div class="won-player-avatar" id="wonPlayerAvatar"></div>
+                    <span class="won-player-name" id="wonByPlayer">-</span>
+                </div>
                 <button class="close-button">Nächste Runde</button>
             </div>
         </div>

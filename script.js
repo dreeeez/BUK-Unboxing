@@ -16,6 +16,7 @@ class UnboxingApp {
         this.wonItemRarity = document.getElementById('wonItemRarity');
         this.wonContent = document.getElementById('wonContent');
         this.wonByPlayer = document.getElementById('wonByPlayer');
+        this.wonPlayerAvatar = document.getElementById('wonPlayerAvatar');
         this.itemPreview = document.getElementById('itemPreview');
         this.previewImage = document.getElementById('previewImage');
         this.previewName = document.getElementById('previewName');
@@ -53,7 +54,7 @@ class UnboxingApp {
 
         // Spieler Anzeige
         this.playerDisplay = document.getElementById('playerDisplay');
-        this.playerAvatar = document.getElementById('playerAvatar');
+        this.playerAvatarContainer = document.getElementById('playerAvatarContainer');
         this.playerName = document.getElementById('playerName');
         this.playerVariant = document.getElementById('playerVariant');
 
@@ -61,6 +62,38 @@ class UnboxingApp {
         this.centerBox = document.getElementById('centerBox');
         this.spinParticles = document.getElementById('spinParticles');
         this.buttonIcons = document.querySelectorAll('.button-icon');
+
+        // Sound
+        this.spinSound = new Audio('songs/Spinning Prize.mp3');
+        this.itemMusic = null; // Wird bei Musikauswahl gesetzt
+
+        // Music Selection Elemente
+        this.musicOverlay = document.getElementById('musicOverlay');
+        this.musicCards = document.getElementById('musicCards');
+
+        // Verfügbare Songs für Item-Spin
+        this.availableSongs = [
+            { file: 'songs/Assumptions_10.wav', title: 'Assumptions' },
+            { file: 'songs/GladGiver_10.wav', title: 'Glad Giver' },
+            { file: 'songs/ElskerBrunstad_10.wav', title: 'Elsker Brunstad' },
+            { file: 'songs/Tiger_10.wav', title: 'Tiger' },
+            { file: 'songs/JegKanBevareGleden_10.wav', title: 'Jeg Kan Bevare Gleden' },
+            { file: 'songs/Pyromaniac_10.wav', title: 'Pyromaniac' },
+            { file: 'songs/Symbolism_10.wav', title: 'Symbolism' }
+        ];
+        this.selectedSong = null;
+
+        // GIF/Video Hintergründe
+        this.saveBgVideo = document.getElementById('saveBgVideo');
+        this.allinBgVideo = document.getElementById('allinBgVideo');
+        this.wonVideoLeft = document.getElementById('wonVideoLeft');
+        this.wonVideoRight = document.getElementById('wonVideoRight');
+
+        // Verfügbare Videos für Hintergründe
+        this.saveVideos = ['GIF/Save/dog.mp4', 'GIF/Save/escape.mp4', 'GIF/Save/jumping.mp4', 'GIF/Save/never.mp4', 'GIF/Save/sick.mp4'];
+        this.allinVideos = ['GIF/All_in/cat.mp4', 'GIF/All_in/cool.mp4', 'GIF/All_in/dance.mp4', 'GIF/All_in/lol.mp4', 'GIF/All_in/man.mp4'];
+        this.winnerVideos = ['GIF/Winner/suii.mp4', 'GIF/Winner/suii2.mp4'];
+        this.cookedVideos = ['GIF/Cooked/bye.mp4', 'GIF/Cooked/gg.MP4', 'GIF/Cooked/laugh.mp4', 'GIF/Cooked/laugh2.mp4'];
 
         // History Elemente
         this.historyLog = document.getElementById('historyLog');
@@ -78,7 +111,7 @@ class UnboxingApp {
         this.currentPerson = null;
         this.isSpinning = false;
         this.spinPhase = 'person'; // 'person' oder 'item'
-        this.totalItems = 60;
+        this.totalItems = 120;
 
         // History - speichert die letzten 4 Gewinner
         this.history = [null, null, null, null];
@@ -95,6 +128,32 @@ class UnboxingApp {
         if (parts.length <= 2) return fullName;
         // Erster Vorname + letzter Nachname
         return `${parts[0]} ${parts[parts.length - 1]}`;
+    }
+
+    /**
+     * Prüft ob eine Datei ein Video ist
+     */
+    isVideo(filename) {
+        if (!filename) return false;
+        const ext = filename.split('.').pop().toLowerCase();
+        return ['mp4', 'webm', 'mov', 'ogg'].includes(ext);
+    }
+
+    /**
+     * Erstellt Avatar-HTML (Bild oder Video)
+     */
+    createAvatarHTML(person, className = 'person-avatar-img') {
+        if (!person.image) {
+            return `<div class="person-avatar">👤</div>`;
+        }
+
+        const displayName = person.name.split(' ')[0];
+
+        if (this.isVideo(person.image)) {
+            return `<video src="${person.image}" class="${className}" autoplay loop muted playsinline onerror="this.parentElement.innerHTML='<div class=\\'person-avatar\\'>👤</div>'"></video>`;
+        } else {
+            return `<img src="${person.image}" alt="${displayName}" class="${className}" onerror="this.parentElement.innerHTML='<div class=\\'person-avatar\\'>👤</div>'">`;
+        }
     }
 
     /**
@@ -141,7 +200,6 @@ class UnboxingApp {
 
         // Reset für neue Runde
         this.resetRound();
-        this.renderSidebars();
         this.preparePersonTrack();
         this.rollButton.disabled = false;
     }
@@ -153,6 +211,15 @@ class UnboxingApp {
         this.currentVariant = variant;
         this.variantOverlay.classList.remove('show');
 
+        // Varianten-Videos stoppen
+        this.saveBgVideo.pause();
+        this.saveBgVideo.currentTime = 0;
+        this.allinBgVideo.pause();
+        this.allinBgVideo.currentTime = 0;
+
+        // Hintergrund-Schimmer entfernen
+        this.variantOverlay.classList.remove('save-active', 'allin-active');
+
         // Spieler-Anzeige aktualisieren
         this.playerVariant.textContent = variant === 'SAVE' ? '🛡️ SAVE' : '🔥 ALL IN';
         this.playerVariant.className = `player-variant ${variant.toLowerCase().replace('_', '-')}`;
@@ -162,6 +229,49 @@ class UnboxingApp {
 
         // Item-Track vorbereiten
         this.prepareItemTrack();
+
+        // Zeige Musikauswahl
+        this.showMusicSelection();
+    }
+
+    /**
+     * Zeigt die Musikauswahl mit 3 zufälligen Songs
+     */
+    showMusicSelection() {
+        // 3 zufällige Songs auswählen
+        const shuffled = [...this.availableSongs].sort(() => Math.random() - 0.5);
+        const selectedSongs = shuffled.slice(0, 3);
+
+        // Cards generieren
+        this.musicCards.innerHTML = '';
+        const icons = ['🎵', '🎶', '🎸', '🎹', '🎺', '🎷', '🥁'];
+
+        selectedSongs.forEach((song, index) => {
+            const card = document.createElement('div');
+            card.className = 'music-card';
+            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            card.innerHTML = `
+                <span class="music-card-number">${index + 1}</span>
+                <span class="music-card-icon">${randomIcon}</span>
+                <span class="music-card-title">${song.title}</span>
+            `;
+            card.addEventListener('click', () => this.selectMusic(song));
+            this.musicCards.appendChild(card);
+        });
+
+        this.musicOverlay.classList.add('show');
+    }
+
+    /**
+     * Wählt einen Song aus und geht zum Item-Spin
+     */
+    selectMusic(song) {
+        this.selectedSong = song;
+        this.musicOverlay.classList.remove('show');
+
+        // Item Music vorbereiten (mit Fade-in)
+        this.itemMusic = new Audio(song.file);
+        this.itemMusic.volume = 0;
 
         // Button für Item-Spin
         this.spinPhase = 'item';
@@ -181,6 +291,14 @@ class UnboxingApp {
         this.playerVariant.textContent = '';
         this.playerVariant.className = 'player-variant';
         this.rollButton.querySelector('.button-text').textContent = 'SPIN PERSON';
+
+        // Musik stoppen und zurücksetzen
+        if (this.itemMusic) {
+            this.itemMusic.pause();
+            this.itemMusic.currentTime = 0;
+            this.itemMusic = null;
+        }
+        this.selectedSong = null;
     }
 
     /**
@@ -248,13 +366,8 @@ class UnboxingApp {
         div.className = 'roll-item person-item';
         const displayName = this.getShortName(person.name);
 
-        // Wenn ein Bild vorhanden ist, zeige es an, sonst Fallback-Avatar
-        const avatarContent = person.image
-            ? `<img src="${person.image}" alt="${displayName}" class="person-avatar-img" onerror="this.parentElement.innerHTML='<div class=\\'person-avatar\\'>👤</div>'">`
-            : `<div class="person-avatar">👤</div>`;
-
         div.innerHTML = `
-            ${avatarContent}
+            ${this.createAvatarHTML(person)}
             <span>${displayName}</span>
         `;
         return div;
@@ -422,6 +535,12 @@ class UnboxingApp {
                 // Preview-Panel links positionieren
                 this.rewardPreviewPanel.classList.add('position-left');
                 this.rewardPreviewPanel.classList.remove('position-right');
+                // Save Video abspielen, All-in pausieren
+                this.saveBgVideo.play();
+                this.allinBgVideo.pause();
+                // Hintergrund-Schimmer aktivieren
+                this.variantOverlay.classList.add('save-active');
+                this.variantOverlay.classList.remove('allin-active');
             } else {
                 // Rechte Hälfte - ALL IN aktiv
                 this.variantColumnAllin.classList.add('active');
@@ -431,6 +550,12 @@ class UnboxingApp {
                 // Preview-Panel rechts positionieren
                 this.rewardPreviewPanel.classList.add('position-right');
                 this.rewardPreviewPanel.classList.remove('position-left');
+                // All-in Video abspielen, Save pausieren
+                this.allinBgVideo.play();
+                this.saveBgVideo.pause();
+                // Hintergrund-Schimmer aktivieren
+                this.variantOverlay.classList.add('allin-active');
+                this.variantOverlay.classList.remove('save-active');
             }
         });
 
@@ -541,9 +666,13 @@ class UnboxingApp {
             if (entry) {
                 column.classList.remove('empty');
 
-                // Avatar
+                // Avatar (Bild oder Video)
                 if (entry.person.image) {
-                    avatar.innerHTML = `<img src="${entry.person.image}" alt="${entry.person.name}" onerror="this.parentElement.textContent='👤'">`;
+                    if (this.isVideo(entry.person.image)) {
+                        avatar.innerHTML = `<video src="${entry.person.image}" autoplay loop muted playsinline onerror="this.parentElement.textContent='👤'"></video>`;
+                    } else {
+                        avatar.innerHTML = `<img src="${entry.person.image}" alt="${entry.person.name}" onerror="this.parentElement.textContent='👤'">`;
+                    }
                 } else {
                     avatar.textContent = '👤';
                 }
@@ -604,7 +733,11 @@ class UnboxingApp {
         if (entry) {
             circle.classList.add('filled');
             if (entry.person.image) {
-                circle.innerHTML = `<img src="${entry.person.image}" alt="${entry.person.name}" onerror="this.textContent='👤'">`;
+                if (this.isVideo(entry.person.image)) {
+                    circle.innerHTML = `<video src="${entry.person.image}" autoplay loop muted playsinline onerror="this.textContent='👤'"></video>`;
+                } else {
+                    circle.innerHTML = `<img src="${entry.person.image}" alt="${entry.person.name}" onerror="this.textContent='👤'">`;
+                }
             } else {
                 circle.textContent = '👤';
             }
@@ -636,8 +769,26 @@ class UnboxingApp {
             this.variantPlayerAvatar.textContent = '👤';
         }
 
+        // Zufällige Videos für Save und All-in laden
+        this.loadRandomVariantVideos();
+
         this.renderVariantRewards();
         this.variantOverlay.classList.add('show');
+    }
+
+    /**
+     * Lädt zufällige Videos für die Varianten-Auswahl (Playback erst bei Hover)
+     */
+    loadRandomVariantVideos() {
+        // Zufälliges Save Video
+        const randomSaveVideo = this.saveVideos[Math.floor(Math.random() * this.saveVideos.length)];
+        this.saveBgVideo.src = randomSaveVideo;
+        this.saveBgVideo.load();
+
+        // Zufälliges All-in Video
+        const randomAllinVideo = this.allinVideos[Math.floor(Math.random() * this.allinVideos.length)];
+        this.allinBgVideo.src = randomAllinVideo;
+        this.allinBgVideo.load();
     }
 
     /**
@@ -713,6 +864,12 @@ class UnboxingApp {
         this.wonContent.classList.remove('animate-in');
         this.wonItemDisplay.classList.remove('show');
 
+        // Won Videos stoppen
+        this.wonVideoLeft.pause();
+        this.wonVideoLeft.currentTime = 0;
+        this.wonVideoRight.pause();
+        this.wonVideoRight.currentTime = 0;
+
         // Neue Runde starten
         this.resetRound();
         this.preparePersonTrack();
@@ -773,8 +930,8 @@ class UnboxingApp {
                 return;
             }
 
-            // Nur 1-2 Partikel auf einmal
-            const particleCount = Math.random() > 0.5 ? 2 : 1;
+            // 2-4 Partikel auf einmal
+            const particleCount = 2 + Math.floor(Math.random() * 3);
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'spin-particle';
@@ -785,15 +942,27 @@ class UnboxingApp {
                 particle.style.left = `${boxCenterX + offsetX}px`;
                 particle.style.top = `${boxTop}px`;
 
+                // Zufällige Richtung: 0 = oben, 1 = links-oben (45°), 2 = rechts-oben (45°)
+                const direction = Math.floor(Math.random() * 3);
+                let flyClass = '';
+                if (direction === 1) {
+                    flyClass = 'fly-left';
+                } else if (direction === 2) {
+                    flyClass = 'fly-right';
+                }
+
                 // Längere Animation-Dauer
                 particle.style.animationDuration = `${2.5 + Math.random() * 1.5}s`;
                 particle.style.animationDelay = `${Math.random() * 0.5}s`;
 
                 this.spinParticles.appendChild(particle);
 
-                // Aktivieren
+                // Aktivieren mit Richtungsklasse
                 requestAnimationFrame(() => {
                     particle.classList.add('active');
+                    if (flyClass) {
+                        particle.classList.add(flyClass);
+                    }
                 });
 
                 // Nach Animation entfernen
@@ -801,7 +970,7 @@ class UnboxingApp {
                     particle.remove();
                 }, 4500);
             }
-        }, 500);
+        }, 300);
     }
 
     /**
@@ -812,6 +981,10 @@ class UnboxingApp {
         this.rollButton.disabled = true;
         this.rollButton.querySelector('.button-text').textContent = '...';
 
+        // Sound abspielen
+        this.spinSound.currentTime = 0;
+        this.spinSound.play();
+
         // Spin-Animationen starten
         this.startSpinAnimations();
 
@@ -819,18 +992,13 @@ class UnboxingApp {
 
         const winningPerson = this.getRandomPerson();
         this.currentPerson = winningPerson;
-        const winningPosition = 45;
+        const winningPosition = 100;
         const displayName = this.getShortName(winningPerson.name);
 
         const trackItems = this.itemsTrack.children;
 
-        // Avatar Content mit Bild oder Fallback
-        const avatarContent = winningPerson.image
-            ? `<img src="${winningPerson.image}" alt="${displayName}" class="person-avatar-img" onerror="this.parentElement.innerHTML='<div class=\\'person-avatar\\'>👤</div>'">`
-            : `<div class="person-avatar">👤</div>`;
-
         trackItems[winningPosition].innerHTML = `
-            ${avatarContent}
+            ${this.createAvatarHTML(winningPerson)}
             <span>${displayName}</span>
         `;
         // WICHTIG: Keine 'winning' Klasse während des Spins - wird erst nach dem Stopp hinzugefügt
@@ -844,7 +1012,7 @@ class UnboxingApp {
         const scrollDistance = (winningPosition * itemWidth) - centerOffset + randomOffset;
 
         requestAnimationFrame(() => {
-            this.itemsTrack.style.transition = 'transform 7s cubic-bezier(0.1, 0.7, 0.2, 1)';
+            this.itemsTrack.style.transition = 'transform 10s cubic-bezier(0.1, 0.7, 0.2, 1)';
             this.itemsTrack.style.transform = `translateX(-${scrollDistance}px)`;
         });
 
@@ -856,7 +1024,7 @@ class UnboxingApp {
             this.isSpinning = false;
             // Spieler-Anzeige mit Avatar einblenden
             this.showPlayerDisplay(winningPerson, displayName);
-        }, 7200);
+        }, 10200);
     }
 
     /**
@@ -865,15 +1033,15 @@ class UnboxingApp {
     showPlayerDisplay(person, displayName) {
         this.playerName.textContent = displayName;
 
-        // Avatar setzen
+        // Avatar setzen (Bild oder Video)
         if (person.image) {
-            this.playerAvatar.src = person.image;
-            this.playerAvatar.style.display = 'block';
-            this.playerAvatar.onerror = () => {
-                this.playerAvatar.style.display = 'none';
-            };
+            if (this.isVideo(person.image)) {
+                this.playerAvatarContainer.innerHTML = `<video src="${person.image}" class="player-avatar" autoplay loop muted playsinline></video>`;
+            } else {
+                this.playerAvatarContainer.innerHTML = `<img src="${person.image}" alt="${displayName}" class="player-avatar">`;
+            }
         } else {
-            this.playerAvatar.style.display = 'none';
+            this.playerAvatarContainer.innerHTML = `<span class="player-avatar-fallback">👤</span>`;
         }
 
         // Anzeige einblenden
@@ -888,13 +1056,26 @@ class UnboxingApp {
         this.rollButton.disabled = true;
         this.rollButton.querySelector('.button-text').textContent = '...';
 
+        // Ausgewählte Musik mit Fade-in abspielen
+        if (this.itemMusic) {
+            this.itemMusic.currentTime = 0;
+            this.itemMusic.volume = 0;
+            this.itemMusic.play();
+            this.fadeInMusic(this.itemMusic, 1.0, 2000); // Fade zu voller Lautstärke über 2 Sekunden
+        }
+
+        // Case Opener Sound von Anfang an
+        const caseOpener = new Audio('songs/case_opener.wav');
+        caseOpener.volume = 1.0; // 100% Lautstärke
+        caseOpener.play();
+
         // Spin-Animationen starten
         this.startSpinAnimations();
 
         this.prepareItemTrack();
-
+ 
         const winningItem = this.getWeightedRandomItem();
-        const winningPosition = 45;
+        const winningPosition = 100;
 
         const trackItems = this.itemsTrack.children;
         trackItems[winningPosition].innerHTML = `
@@ -910,10 +1091,28 @@ class UnboxingApp {
         const randomOffset = (Math.random() - 0.5) * (itemWidth * 0.5);
         const scrollDistance = (winningPosition * itemWidth) - centerOffset + randomOffset;
 
+        // Dreistufige Animation: Beschleunigen -> Vollgas halten -> Abbremsen
+        const phase1Distance = scrollDistance * 0.20;  // 20% beim Beschleunigen
+        const phase2Distance = scrollDistance * 0.85;  // 65% bei Vollgas
+        const phase3Distance = scrollDistance;          // 15% beim Abbremsen
+
         requestAnimationFrame(() => {
-            this.itemsTrack.style.transition = 'transform 7s cubic-bezier(0.1, 0.7, 0.2, 1)';
-            this.itemsTrack.style.transform = `translateX(-${scrollDistance}px)`;
+            // Phase 1: Beschleunigen (2 Sekunden) - ease-in, wird immer schneller
+            this.itemsTrack.style.transition = 'transform 2s cubic-bezier(0.4, 0, 1, 1)';
+            this.itemsTrack.style.transform = `translateX(-${phase1Distance}px)`;
         });
+
+        // Phase 2: Vollgas halten (4.5 Sekunden) - linear, konstant schnell
+        setTimeout(() => {
+            this.itemsTrack.style.transition = 'transform 4.5s linear';
+            this.itemsTrack.style.transform = `translateX(-${phase2Distance}px)`;
+        }, 2000);
+
+        // Phase 3: Abbremsen (3.5 Sekunden) - ab 6.5s
+        setTimeout(() => {
+            this.itemsTrack.style.transition = 'transform 3.5s cubic-bezier(0, 0, 0.2, 1)';
+            this.itemsTrack.style.transform = `translateX(-${phase3Distance}px)`;
+        }, 6500);
 
         setTimeout(() => {
             this.stopSpinAnimations();
@@ -921,7 +1120,37 @@ class UnboxingApp {
             this.isSpinning = false;
             this.rollButton.disabled = false;
             this.rollButton.querySelector('.button-text').textContent = 'SPIN PERSON';
-        }, 7200);
+        }, 10200);
+    }
+
+    /**
+     * Startet das schwarze Pulsieren vor dem Drop
+     */
+    startDropPulse() {
+        this.itemsTrack.classList.add('drop-pulse');
+    }
+
+    /**
+     * Stoppt das schwarze Pulsieren
+     */
+    stopDropPulse() {
+        this.itemsTrack.classList.remove('drop-pulse');
+    }
+
+    /**
+     * Fade-in für Musik
+     */
+    fadeInMusic(audio, targetVolume, duration) {
+        const startVolume = audio.volume;
+        const volumeStep = (targetVolume - startVolume) / (duration / 50);
+
+        const fadeInterval = setInterval(() => {
+            if (audio.volume < targetVolume) {
+                audio.volume = Math.min(audio.volume + volumeStep, targetVolume);
+            } else {
+                clearInterval(fadeInterval);
+            }
+        }, 50);
     }
 
     /**
@@ -930,10 +1159,14 @@ class UnboxingApp {
     showPersonWon(person) {
         this.wonPersonName.textContent = this.getShortName(person.name);
 
-        // Profilbild in Person-Icon setzen
+        // Profilbild in Person-Icon setzen (Bild oder Video)
         const personIconEl = this.personWonContent.querySelector('.person-icon');
         if (person.image) {
-            personIconEl.innerHTML = `<img src="${person.image}" alt="${person.name}" class="person-won-img" onerror="this.parentElement.textContent='👤'">`;
+            if (this.isVideo(person.image)) {
+                personIconEl.innerHTML = `<video src="${person.image}" class="person-won-img" autoplay loop muted playsinline onerror="this.parentElement.textContent='👤'"></video>`;
+            } else {
+                personIconEl.innerHTML = `<img src="${person.image}" alt="${person.name}" class="person-won-img" onerror="this.parentElement.textContent='👤'">`;
+            }
         } else {
             personIconEl.textContent = '👤';
         }
@@ -958,8 +1191,37 @@ class UnboxingApp {
         this.wonItemRarity.textContent = RARITY_LABELS[item.rarity];
         this.wonByPlayer.textContent = this.currentPerson ? this.getShortName(this.currentPerson.name) : '-';
 
+        // Avatar setzen
+        if (this.currentPerson && this.currentPerson.image) {
+            if (this.isVideo(this.currentPerson.image)) {
+                this.wonPlayerAvatar.innerHTML = `<video src="${this.currentPerson.image}" autoplay loop muted playsinline></video>`;
+            } else {
+                this.wonPlayerAvatar.innerHTML = `<img src="${this.currentPerson.image}" alt="${this.currentPerson.name}">`;
+            }
+        } else {
+            this.wonPlayerAvatar.innerHTML = '👤';
+        }
+
         this.wonContent.classList.remove('animate-in');
         this.wonContent.className = `won-content rarity-${item.rarity}`;
+
+        // Winner oder Cooked Videos basierend auf Rarity (2 verschiedene für links und rechts)
+        const goodRarities = ['stier', 'legendary', 'epic'];
+        const isGoodItem = goodRarities.includes(item.rarity);
+        const videoList = isGoodItem ? this.winnerVideos : this.cookedVideos;
+
+        // Zwei zufällige Videos auswählen (können unterschiedlich sein)
+        const shuffled = [...videoList].sort(() => Math.random() - 0.5);
+        const videoLeft = shuffled[0];
+        const videoRight = shuffled[1] || shuffled[0]; // Falls nur 1 Video vorhanden
+
+        this.wonVideoLeft.src = videoLeft;
+        this.wonVideoLeft.load();
+        this.wonVideoLeft.play();
+
+        this.wonVideoRight.src = videoRight;
+        this.wonVideoRight.load();
+        this.wonVideoRight.play();
 
         this.wonItemDisplay.classList.add('show');
 

@@ -233,6 +233,20 @@ body {
     left: 0;
 }
 
+/* Drop Pulse Animation - schnelles schwarzes Pulsieren vor dem Drop */
+.items-track.drop-pulse .roll-item {
+    animation: dropPulse 0.15s ease-in-out infinite;
+}
+
+@keyframes dropPulse {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(0.3);
+    }
+}
+
 .roll-item {
     flex-shrink: 0;
     width: 200px;
@@ -371,6 +385,14 @@ body {
     animation: particleFly 3s ease-out forwards;
 }
 
+.spin-particle.active.fly-left {
+    animation: particleFlyLeft 3s ease-out forwards;
+}
+
+.spin-particle.active.fly-right {
+    animation: particleFlyRight 3s ease-out forwards;
+}
+
 @keyframes particleFly {
     0% {
         opacity: 0;
@@ -382,6 +404,34 @@ body {
     100% {
         opacity: 0;
         transform: translateY(-40vh) scale(0.6) rotate(180deg);
+    }
+}
+
+@keyframes particleFlyLeft {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+    }
+    15% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-30vw, -30vh) scale(0.6) rotate(-180deg);
+    }
+}
+
+@keyframes particleFlyRight {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+    }
+    15% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(30vw, -30vh) scale(0.6) rotate(180deg);
     }
 }
 
@@ -684,6 +734,66 @@ body {
     display: flex;
 }
 
+/* Seitliche Winner/Cooked Videos */
+.won-side-video {
+    position: absolute;
+    top: 50%;
+    width: 280px;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.won-side-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.won-side-left {
+    left: calc(25% - 140px);
+    transform: translateY(-50%);
+    animation: wonVideoFloatLeft 3s ease-in-out infinite, wonVideoPulse 2s ease-in-out infinite;
+}
+
+.won-side-right {
+    right: calc(25% - 140px);
+    transform: translateY(-50%);
+    animation: wonVideoFloatRight 3s ease-in-out infinite, wonVideoPulse 2s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes wonVideoPulse {
+    0%, 100% {
+        opacity: 0.85;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes wonVideoFloatLeft {
+    0%, 100% {
+        transform: translateY(-50%) scale(1) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(calc(-50% - 15px)) scale(1.05) rotate(2deg);
+    }
+}
+
+@keyframes wonVideoFloatRight {
+    0%, 100% {
+        transform: translateY(-50%) scale(1) rotate(2deg);
+    }
+    50% {
+        transform: translateY(calc(-50% - 15px)) scale(1.05) rotate(-2deg);
+    }
+}
+
 .won-content {
     text-align: center;
     position: relative;
@@ -850,14 +960,39 @@ body {
 .item-preview.rarity-punishment p { color: #dc143c; }
 
 .won-player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 25px;
 }
 
-.won-player span {
+.won-player-label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.won-player-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #ffd700;
+    box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+}
+
+.won-player-avatar img,
+.won-player-avatar video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.won-player-name {
     color: #ffd700;
     font-weight: 600;
+    font-size: 1.1rem;
 }
 
 /* ==================== MODE DISPLAY (oben rechts) ==================== */
@@ -1056,6 +1191,116 @@ body {
     filter: drop-shadow(0 5px 20px rgba(155, 89, 182, 0.5));
 }
 
+/* ==================== MUSIC SELECTION OVERLAY ==================== */
+.music-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.music-overlay.show {
+    display: flex;
+}
+
+.music-content {
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.music-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 30px rgba(147, 112, 219, 0.5);
+}
+
+.music-cards {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.music-card {
+    width: 220px;
+    height: 280px;
+    background: linear-gradient(145deg, rgba(30, 30, 50, 0.9), rgba(20, 20, 35, 0.95));
+    border: 2px solid rgba(147, 112, 219, 0.4);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.music-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, rgba(147, 112, 219, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.music-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    border-color: rgba(147, 112, 219, 0.8);
+    box-shadow: 0 20px 60px rgba(147, 112, 219, 0.4);
+}
+
+.music-card:hover::before {
+    opacity: 1;
+}
+
+.music-card-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+}
+
+.music-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    line-height: 1.3;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.music-card-number {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: rgba(147, 112, 219, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+}
+
 /* ==================== VARIANT OVERLAY ==================== */
 .variant-overlay {
     display: none;
@@ -1068,10 +1313,106 @@ body {
     z-index: 150;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .variant-overlay.show {
     display: flex;
+}
+
+/* Farbige Hintergrund-Schimmer für Save (grün) und All-in (rot) */
+.variant-overlay::before,
+.variant-overlay::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    width: 100%;
+    height: 200%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Save Seite - Grüner Schimmer links */
+.variant-overlay::before {
+    left: -50%;
+    background:
+        radial-gradient(ellipse 80% 60% at 20% 30%, rgba(46, 204, 113, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 80% at 40% 70%, rgba(46, 204, 113, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 50% at 30% 50%, rgba(46, 204, 113, 0.25) 0%, transparent 60%);
+    animation: shimmerLeftMove 8s ease-in-out infinite, shimmerLeftPulse 3s ease-in-out infinite;
+}
+
+/* All-in Seite - Roter Schimmer rechts */
+.variant-overlay::after {
+    right: -50%;
+    background:
+        radial-gradient(ellipse 80% 60% at 80% 30%, rgba(231, 76, 60, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 80% at 60% 70%, rgba(231, 76, 60, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 50% at 70% 50%, rgba(231, 76, 60, 0.25) 0%, transparent 60%);
+    animation: shimmerRightMove 8s ease-in-out infinite, shimmerRightPulse 3s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+/* Aktive Seite zeigt Schimmer */
+.variant-overlay.save-active::before {
+    opacity: 1;
+}
+
+.variant-overlay.allin-active::after {
+    opacity: 1;
+}
+
+/* Bewegungs-Animation für Save (links) */
+@keyframes shimmerLeftMove {
+    0%, 100% {
+        transform: translate(0%, 0%) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translate(5%, 10%) rotate(2deg) scale(1.05);
+    }
+    50% {
+        transform: translate(10%, -5%) rotate(-1deg) scale(1.1);
+    }
+    75% {
+        transform: translate(-5%, 5%) rotate(1deg) scale(1.02);
+    }
+}
+
+/* Puls-Animation für Save */
+@keyframes shimmerLeftPulse {
+    0%, 100% {
+        filter: brightness(1) blur(0px);
+    }
+    50% {
+        filter: brightness(1.2) blur(5px);
+    }
+}
+
+/* Bewegungs-Animation für All-in (rechts) */
+@keyframes shimmerRightMove {
+    0%, 100% {
+        transform: translate(0%, 0%) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translate(-5%, -10%) rotate(-2deg) scale(1.05);
+    }
+    50% {
+        transform: translate(-10%, 5%) rotate(1deg) scale(1.1);
+    }
+    75% {
+        transform: translate(5%, -5%) rotate(-1deg) scale(1.02);
+    }
+}
+
+/* Puls-Animation für All-in */
+@keyframes shimmerRightPulse {
+    0%, 100% {
+        filter: brightness(1) blur(0px);
+    }
+    50% {
+        filter: brightness(1.2) blur(5px);
+    }
 }
 
 .variant-content {
@@ -1143,6 +1484,29 @@ body {
     flex-direction: column;
     align-items: center;
     transition: all 0.4s ease;
+    position: relative;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+/* Video in den Variant Buttons */
+.variant-btn-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+    z-index: 0;
+    border-radius: 18px;
+    pointer-events: none;
+}
+
+.variant-btn .variant-btn-title,
+.variant-btn .variant-btn-desc {
+    position: relative;
+    z-index: 1;
 }
 
 /* Ausgrauen per JavaScript-Klasse */
@@ -1165,6 +1529,9 @@ body {
     transition: all 0.3s ease;
     font-family: 'Poppins', sans-serif;
     min-width: 280px;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
 }
 
 .variant-btn:hover {
@@ -1228,13 +1595,14 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(20, 20, 30, 0.7);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -1255,26 +1623,29 @@ body {
     background: rgba(15, 15, 25, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 20px;
-    padding: 30px;
+    padding: 40px;
     border: 2px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-    width: 280px;
-    height: 340px;
+    width: 340px;
+    height: auto;
+    min-height: 450px;
     text-align: center;
     position: fixed;
-    top: 72%;
+    top: 58%;
     transform: translateY(-50%);
     z-index: 250;
     transition: left 0.3s ease, right 0.3s ease;
 }
 
+/* Save Preview - links positioniert, mehr nach rechts (zur Mitte) */
 .reward-preview-panel.position-left {
-    left: 40px;
+    left: 200px;
     right: auto;
 }
 
+/* All-in Preview - rechts positioniert, mehr nach links (zur Mitte) */
 .reward-preview-panel.position-right {
-    right: 40px;
+    right: 200px;
     left: auto;
 }
 
@@ -1283,10 +1654,10 @@ body {
 }
 
 .reward-preview-panel img {
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
     object-fit: contain;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .reward-preview-panel h4 {
@@ -1556,7 +1927,6 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 20px;
     padding: 8px 20px 8px 8px;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
@@ -1568,6 +1938,12 @@ body {
 
 .player-display.hidden {
     display: none;
+}
+
+.player-avatar-container {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
 }
 
 .player-avatar {
@@ -1632,14 +2008,19 @@ body {
     filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
 }
 
-.person-avatar-img {
+.person-avatar-img,
+video.person-avatar-img {
     width: 100px;
     height: 100px;
+    min-width: 100px;
+    min-height: 100px;
     object-fit: cover;
+    object-position: center top;
     border-radius: 50%;
     margin-bottom: 18px;
     border: 3px solid rgba(147, 112, 219, 0.5);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background: rgba(147, 112, 219, 0.2);
 }
 
 /* ==================== PERSON WON STYLING ==================== */
@@ -1721,7 +2102,9 @@ body {
     }
 
     .roll-section {
-        margin-top: 8vh;
+        margin-top: 4vh;
+        max-width: 2200px;
+        margin-bottom: 20px;
     }
 
     .button-section {
@@ -1738,22 +2121,30 @@ body {
     }
 
     .variant-btn {
-        padding: 35px 60px;
+        padding: 40px 70px;
         font-size: 1.1rem;
+        min-width: 350px;
+        min-height: 280px;
     }
 
     .variant-btn-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
     .variant-rewards {
-        gap: 12px;
-        margin-top: 30px;
+        gap: 15px;
+        margin-top: 35px;
+        max-width: 420px;
     }
 
     .variant-reward-item {
-        width: 70px;
-        height: 70px;
+        width: 85px;
+        height: 85px;
+    }
+
+    .variant-reward-item img {
+        max-width: 60px;
+        max-height: 60px;
     }
 
     .variant-player-info {
@@ -1771,21 +2162,33 @@ body {
     }
 
     .reward-preview-panel {
-        padding: 30px;
-        max-width: 350px;
+        padding: 50px 40px;
+        width: 380px;
+        height: auto;
+        min-height: 500px;
     }
 
     .reward-preview-panel img {
-        max-width: 180px;
-        max-height: 180px;
+        width: 220px;
+        height: 220px;
+        max-width: none;
+        max-height: none;
+        margin-bottom: 30px;
     }
 
     .reward-preview-panel h4 {
-        font-size: 1.4rem;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .reward-preview-panel span {
+        font-size: 1.1rem;
     }
 
     .reward-preview-panel .reward-preview-desc {
-        font-size: 1rem;
+        font-size: 1.1rem;
+        width: 280px;
+        margin-top: 20px;
     }
 }
 
